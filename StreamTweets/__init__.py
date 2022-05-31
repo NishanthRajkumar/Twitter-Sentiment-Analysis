@@ -26,10 +26,10 @@ def get_tweets(name: str):
     public_tweets = api.user_timeline(screen_name = name)
     
     # Create dataframe
-    columns = ['Time', 'User', 'Tweet']
+    columns = ['Tweet']
     data = []
     for tweet in public_tweets:
-        data.append([tweet.created_at, tweet.user.screen_name, tweet.text])
+        data.append([tweet.text])
     df = pd.DataFrame(data, columns=columns)
 
     logging.info('Storing dataframe as csv format buffer data')
@@ -52,7 +52,7 @@ def get_tweets(name: str):
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Twitter-stream HTTP trigger function processed a request.')
+    logging.info('StreamTweets function processed a request.')
     
     name = req.params.get('name')
 

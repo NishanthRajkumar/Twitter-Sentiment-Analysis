@@ -73,7 +73,7 @@ def get_tweet_sentiment(my_tweet) -> str:
 def sentiment_prediction_main():
     azure_storage_conn = os.environ['AZURE_STORAGE_CONN']
     storage_container_name = os.environ['AZURE_CONTAINER_NAME']
-    azure_blob_url = os.environ['AZURE_BLOB_URL']
+    azure_blob_url = os.environ['AZURE_TWEETS_BLOB_URL']
 
     logging.info(f'Reading tweets csv file blob')
 
@@ -103,7 +103,7 @@ def sentiment_prediction_main():
     
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Twitter-stream Twitter Sentiment function processed a request.')
+    logging.info('PredictSentiment function processed a request.')
     
     sentiment_prediction_main()
     return func.HttpResponse("Twitter Sentiment analysis successfull")

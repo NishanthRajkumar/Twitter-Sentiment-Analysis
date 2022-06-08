@@ -11,7 +11,13 @@ azure_blob_url = os.environ['AZURE_SENTIMENTS_BLOB_URL']
 
 def load_cosmos():
     client = pymongo.MongoClient(cosmos_uri)
+    list_of_db = client.list_database_names()
+    if 'twitter-data' not in list_of_db:
+        return "unable to locate 'twitter-data' DB"
     db = client['twitter_data']
+    list_of_collections = db.list_collection_names()
+    if 'tweet_sentiments' not in list_of_collections:
+        db.create_collection('tweet_sentiments')
     tweet_coll = db['tweet_sentiments']
 
     logging.info(f'Reading sentiments csv file blob')
@@ -20,10 +26,9 @@ def load_cosmos():
 
     logging.info(f'Inserting into CosmosDB')
     tweet_coll.insert_many(df_dict)
-
+    return "Loading to CosmosDB... successfull"
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('LoadCosmosDB function processed a request.')
-    
-    load_cosmos()
-    return func.HttpResponse("Loading to CosmosDB... successfull")
+    result = load_cosmos()
+    return func.HttpResponse(result)

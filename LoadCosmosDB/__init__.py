@@ -12,8 +12,8 @@ azure_blob_url = os.environ['AZURE_SENTIMENTS_BLOB_URL']
 def load_cosmos():
     client = pymongo.MongoClient(cosmos_uri)
     list_of_db = client.list_database_names()
-    if 'twitter-data' not in list_of_db:
-        return "unable to locate 'twitter-data' DB"
+    if 'twitter_data' not in list_of_db:
+        return "unable to locate 'twitter_data' DB"
     db = client['twitter_data']
     list_of_collections = db.list_collection_names()
     if 'tweet_sentiments' not in list_of_collections:

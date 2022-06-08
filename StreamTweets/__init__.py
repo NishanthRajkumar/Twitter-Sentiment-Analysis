@@ -41,14 +41,8 @@ def get_tweets(name: str):
         container_name=storage_container_name,
         blob_name="tweets.csv"
     )
-
-    logging.info('Attempting to store in blob storage')
-    if blob.exists():
-        logging.info('Blob already exist! Attempting to delete existing blob in storage')
-        blob.delete_blob(delete_snapshots="include")
-
     logging.info('Uploading tweets.csv to blob storage')
-    blob.upload_blob(output)
+    blob.upload_blob(output, overwrite=True)
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:

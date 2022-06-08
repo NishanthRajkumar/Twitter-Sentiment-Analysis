@@ -93,13 +93,9 @@ def sentiment_prediction_main():
         container_name=storage_container_name,
         blob_name="tweet_sentiment.csv"
     )
-    logging.info('Attempting to store in blob storage')
-    if sentiment_blob.exists():
-        logging.info('Blob already exist! Attempting to delete existing blob in storage')
-        sentiment_blob.delete_blob(delete_snapshots="include")
 
     logging.info('Uploading tweet_sentiment.csv to blob storage')
-    sentiment_blob.upload_blob(output)
+    sentiment_blob.upload_blob(output, overwrite=True)
     
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
